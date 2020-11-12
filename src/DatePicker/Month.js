@@ -48,7 +48,7 @@ class Month extends Component {
   }
 
   renderWeek(fullDate, dayIndex) {
-    const { onDayClick } = this.props;
+    const { onDayClick, selectedDate1, selectedDate2, type } = this.props;
     const { hoveredDate } = this.state;
 
     if (fullDate == null) {
@@ -56,12 +56,35 @@ class Month extends Component {
     }
 
     const date = fullDate.getDate();
+    const month = fullDate.getMonth();
+    const year = fullDate.getFullYear();
+
+    let selected1 =
+      date === selectedDate1.getDate() &&
+      month === selectedDate1.getMonth() &&
+      year === selectedDate1.getFullYear();
+    let selected2 =
+      date === selectedDate2.getDate() &&
+      month === selectedDate2.getMonth() &&
+      year === selectedDate2.getFullYear();
+    let today = new Date();
+
+    let selectedPeriod =
+      fullDate > selectedDate1 && fullDate < selectedDate2 && type === "2"
+        ? true
+        : false;
     return (
       <Day
         key={dayIndex}
         fullDate={fullDate}
         onClick={onDayClick}
-        selected={date === this.props.date}
+        selected={selected1 || selected2}
+        selectedPeriod={selectedPeriod}
+        today={
+          date === today.getDate() &&
+          month === today.getMonth() &&
+          year === today.getFullYear()
+        }
         hovering={date === hoveredDate}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}

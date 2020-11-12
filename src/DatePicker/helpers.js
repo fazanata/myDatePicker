@@ -6,7 +6,7 @@ const months = [
   "Май",
   "Июнь",
   "Июль",
-  "Агуст",
+  "Август",
   "Сентябрь",
   "Октябрь",
   "Ноябрь",
@@ -18,13 +18,13 @@ export function getMonthName(index) {
 }
 
 export const weekdays = [
-  "Воскресенье",
   "Понедельник",
   "Вторник",
   "Среда",
   "Четверг",
   "Пятница",
   "Суббота",
+  "Воскресенье",
 ];
 
 export function abbreviationForWeekday(weekday) {
@@ -35,9 +35,17 @@ const WEEK_LENGTH = 7;
 
 export function getWeeksForMonth(month, year) {
   const firstOfMonth = new Date(year, month, 1);
-  const firstDayOfWeek = firstOfMonth.getDay();
-  const weeks = [[]];
+  let firstDayOfWeek = firstOfMonth.getDay();
 
+  //for russian week
+  if (firstDayOfWeek === 0) {
+    firstDayOfWeek = 6;
+  } else {
+    firstDayOfWeek = firstDayOfWeek - 1;
+  }
+  //end of russian week + weekdays translate
+
+  const weeks = [[]];
   let currentWeek = weeks[0];
   let currentDate = firstOfMonth;
 

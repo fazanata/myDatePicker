@@ -6,50 +6,21 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.onDayClick = this.onDayClick.bind(this);
-    this.onChangeState = this.onChangeState.bind(this);
+
     this.state = {
-      coverState: false,
-      selectedDate: new Date(),
+      date: "",
     };
   }
 
   render() {
-    const { selectedDate, coverState } = this.state;
-
+    const dateValue1 = "01.11.2020";
+    const dateValue2 = "19.11.2020";
     return (
       <div className="App">
-        <div className="MainContent">
-          <input className="MainInput" type="text" placeholder="for input date..." />
-          <DatePicker
-            fullDate={selectedDate}
-            coverState={coverState}
-            onDayClick={this.onDayClick}
-            onChangeState={this.onChangeState}
-          />
-        </div>
+        <DatePicker DateValue={dateValue1} type="1" />
+        <DatePicker DateValue={dateValue1} DateValue2={dateValue2} type="2" />
       </div>
     );
-  }
-
-  onDayClick(newDay) {
-    const { selectedDate } = this.state;
-
-    this.setState({
-      selectedDate: new Date(
-        selectedDate.getFullYear(),
-        selectedDate.getMonth(),
-        newDay
-      ),
-    });
-  }
-
-  onChangeState() {
-    
-    this.setState({
-      coverState: !this.state.coverState
-    })
-    console.log('onchange', this.state.coverState)
   }
 }
 
