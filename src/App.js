@@ -1,7 +1,21 @@
 import React, { Component } from "react";
+import Calendar from "react-datepicker";
+import MaskedTextInput from "react-text-mask";
+
 
 import DatePicker from "./DatePicker";
 import "./App.css";
+
+const DatePicker2 = props => (
+  <Calendar
+    customInput={
+      <MaskedTextInput
+        type="text"
+        mask={[/\d/, /\d/, ".", /\d/, /\d/, ".", /\d/, /\d/, /\d/, /\d/]}
+      />
+    }
+  />
+);
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +33,7 @@ class App extends Component {
       <div className="App">
         <DatePicker DateValue={dateValue1} type="1" />
         <DatePicker DateValue={dateValue1} DateValue2={dateValue2} type="2" />
+        <DatePicker2 />
       </div>
     );
   }

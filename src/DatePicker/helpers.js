@@ -28,6 +28,7 @@ export const weekdays = [
 ];
 
 export function abbreviationForWeekday(weekday) {
+  const weekDayRus = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
   return weekday.substring(0, 3);
 }
 
