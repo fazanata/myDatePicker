@@ -10,6 +10,7 @@ class DatePicker extends Component {
     this.onChangeState = this.onChangeState.bind(this);
     this.onChangeCurrentMounth = this.onChangeCurrentMounth.bind(this);
     this.onChangeCurrentYear = this.onChangeCurrentYear.bind(this);
+    this.onWeekClick = this.onWeekClick.bind(this);
 
     var firstDate = new Date();
     var secondDate = new Date();
@@ -25,6 +26,7 @@ class DatePicker extends Component {
       firstDate = new Date(props.DateValue.replace(pattern, "$3-$2-$1"));
     }
     this.state = {
+      lang: props.lang,
       type: props.type,
       numberClicks: 2,
       stateCalendar: "open", //open -открыт по дате, scroll - листаем
@@ -47,8 +49,9 @@ class DatePicker extends Component {
       inputDate,
       stateCalendar,
       type,
+      lang,
     } = this.state;
-
+    
     return (
       <div className="DatePicker">
         <div className="MainContent">
@@ -61,11 +64,13 @@ class DatePicker extends Component {
           <DatePickerCal
             fullDate={displayedDate}
             type={type}
+            lang={lang}
             stateCalendar={stateCalendar}
             selectedDate1={selectedDate1}
             selectedDate2={selectedDate2}
             coverState={coverState}
             onDayClick={this.onDayClick}
+            onWeekClick={this.onWeekClick}
             onChangeState={this.onChangeState}
             onChangeCurrentYear={this.onChangeCurrentYear}
             onChangeCurrentMounth={this.onChangeCurrentMounth}
@@ -127,6 +132,19 @@ class DatePicker extends Component {
     }
   }
 
+  onWeekClick(newWeek) {
+    var selectedDate1 = newWeek.find(x=>x!==null);
+    var selectedDate2 = newWeek.reverse().find(x=>x!==null);
+    this.setState((state) => {
+      return {
+        selectedDate1,
+        displayedDate: selectedDate1,
+        selectedDate2,
+        inputDate: selectedDate1.toLocaleDateString() + " - " + selectedDate2.toLocaleDateString(),
+      };
+    });
+  }
+
   onChangeState() {
     this.setState((state) => {
       let date1 = new Date();
@@ -153,7 +171,6 @@ class DatePicker extends Component {
   onChangeCurrentMounth(b) {
     let newMonth = this.state.displayedDate.getMonth();
     let newYear = this.state.displayedDate.getFullYear();
-    console.log("curr month ", this.state.currentMonthSelected);
     if (b === "sub") {
       if (this.state.currentMonthSelected === 0) {
         newMonth = 12;

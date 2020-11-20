@@ -17,6 +17,8 @@ class DatePickerCal extends Component {
       coverState,
       stateCalendar,
       type,
+      onWeekClick,
+      lang,
     } = this.props;
 
     const dateMonth = stateCalendar === "scroll" ? fullDate : selectedDate1;
@@ -24,7 +26,7 @@ class DatePickerCal extends Component {
     const dateNumber = dateMonth.getDate();
     const monthNumber = dateMonth.getMonth();
     const yearNumber = dateMonth.getFullYear();
-    const monthName = getMonthName(monthNumber);
+    const monthName = getMonthName(lang, monthNumber);
 
     return (
       <div>
@@ -51,10 +53,12 @@ class DatePickerCal extends Component {
               selectedDate1={selectedDate1}
               selectedDate2={selectedDate2}
               type={type}
+              lang={lang}
               date={dateNumber}
               month={monthNumber}
               year={yearNumber}
               onDayClick={onDayClick}
+              onWeekClick={onWeekClick}
             />
           </div>
         ) : (
