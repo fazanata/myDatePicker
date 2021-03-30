@@ -1,31 +1,7 @@
-const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];
-const monthsLang = {
-  "en": [
-    "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-],
-  "ru": [
-    "Январь",  "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь",
-  ],
-  "fr": [
-    "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"
-  ]
-}
+import { monthsLang, weekdaysLang, dateFormat} from "./localeParams";
 
 export function getMonthName(lang, index) {
-  const monthsLangL = monthsLang[lang]
+  const monthsLangL = monthsLang[lang] || monthsLang["en"];
   return monthsLangL[index];
 }
 
@@ -39,20 +15,7 @@ export const weekdays = [
   "Воскресенье",
 ];
 
-export const weekdaysLang = { 
-  "en": [
-    "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"
-],
-  "ru": [
-    "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
-  ],
-  "fr": [
-    "Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"
-  ]
-}
-
 export function abbreviationForWeekday(weekday) {
-  const weekDayRus = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
   return weekday.substring(0, 3);
 }
 
@@ -93,4 +56,44 @@ export function getWeeksForMonth(month, year) {
   }
 
   return weeks;
+}
+
+export function stringToDate(_date,lang)
+{
+
+  const _format = dateFormat[lang];
+  //var _delimiter = _format.match(/\W/g)[0];
+  
+  let _delimiter = (_date.indexOf('/') >= 0 ) ? '/' : '.';
+  if (_date.indexOf('-') >= 0 ) _delimiter='-';
+  
+  var formatLowerCase=_format.toLowerCase();
+  var formatItems=formatLowerCase.split(_delimiter);
+  
+  var dateItems=_date.split(_delimiter);
+  
+  
+  var monthIndex=(formatItems.indexOf("mm") >=0 ) ? formatItems.indexOf("mm") : formatItems.indexOf("m");
+  
+  var dayIndex=(formatItems.indexOf("dd") >=0 ) ? formatItems.indexOf("dd") : formatItems.indexOf("d");
+  
+  var yearIndex=(formatItems.indexOf("yyyy") >= 0 ) ? formatItems.indexOf("yyyy") : formatItems.indexOf("yy");
+  
+  var month=parseInt(dateItems[monthIndex]);
+  month-=1;
+  
+  var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
+  
+  return formatedDate;
+
+}
+
+export function checkStrDateToMask(_date, lang) {
+  const _format = dateFormat[lang];
+  if (_date === null) {
+    let newStr = _format.toLowerCase().replace( /m|d|y/g, '_');
+    return newStr
+  } else {
+    
+  }
 }

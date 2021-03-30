@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 import Weekday from "./Weekday";
 import Day from "./Day";
-import { weekdaysLang, abbreviationForWeekday, getWeeksForMonth } from "./helpers";
+import { abbreviationForWeekday, getWeeksForMonth } from "./helpers";
+import { weekdaysLang } from "./localeParams";
 
 class Month extends Component {
   constructor(props) {
@@ -18,16 +19,16 @@ class Month extends Component {
   }
 
   render() {
-    const { month, year, onWeekClick, lang } = this.props;
-    const weekdays = weekdaysLang[lang];
+    const { month, year, onWeekClick, lang, type } = this.props;
+    const weekdays = weekdaysLang[lang] || weekdaysLang["en"];
     const week = getWeeksForMonth(month, year);
     const weeksMarkup = week.map((week, index) => {
       return (
         <div>
-        <div role="row" className="Week" key={index}>
-          <button onClick= {() => onWeekClick(week)} /> 
-          {week.map(this.renderWeek)}
-        </div>
+          <div role="row" className="Week" key={index}>
+            {type === "2" && <button onClick={() => onWeekClick(week)} />}
+            {week.map(this.renderWeek)}
+          </div>
         </div>
       );
     });
@@ -36,7 +37,7 @@ class Month extends Component {
       return (
         <Weekday
           key={weekday}
-          title={abbreviationForWeekday(weekday,lang)}
+          title={abbreviationForWeekday(weekday, lang)}
           current={true}
           label={weekday}
         />
